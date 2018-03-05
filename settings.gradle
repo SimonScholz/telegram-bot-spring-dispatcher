@@ -1,0 +1,8 @@
+include 'dashboard'
+project(':dashboard').projectDir = new File('frontend/dashboard')
+include 'telegram-bot-dispatcher'
+project(':telegram-bot-dispatcher').projectDir = new File('backend/telegram-bot-dispatcher')
+include 'telegram-bot-eureka'
+project(':telegram-bot-eureka').projectDir = new File('backend/telegram-bot-eureka')
+include 'telegram-bot-hystrix'
+project(':telegram-bot-hystrix').projectDir = new File('backend/telegram-bot-hystrix')

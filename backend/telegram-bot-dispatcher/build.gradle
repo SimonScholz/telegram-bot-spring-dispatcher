@@ -54,3 +54,11 @@ dependencyManagement {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
 }
+
+jar {
+  from('../frontend/dist') {
+    into 'static'
+  }
+}
+
+jar.dependsOn(':frontend/dashboard:assemble')

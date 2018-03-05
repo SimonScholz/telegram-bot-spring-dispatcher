@@ -1,0 +1,64 @@
+== Dashboard for me and my telegram bot
+
+== Technology Setup
+
+Used technology is
+
+* nodejs
+* npm + npx
+* vs code
+
+=== Uninstall older node js and npm installations
+
+$ sudo apt-get purge nodejs npm
+
+=== Install node js and npm + npx
+
+[source, console]
+----
+# Ubuntu 
+
+curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+sudo apt-get install -y nodejs
+----
+
+TIP
+====
+Guide for unix installtion: https://github.com/nodesource/distributions
+====
+
+=== Use create-react-app tooling
+
+Facebook provides some templates for creating the react boiler plate to start developing react apps here: https://github.com/facebook/create-react-app
+
+[source, console]
+----
+npx create-react-app dashboard
+cd dashboard
+yarn start
+----
+
+NOTE
+====
+dashboard is the name of the react app.
+====
+
+=== Use VS Code as editor
+
+See https://code.visualstudio.com/docs/setup/linux
+
+[source, console]
+----
+#Download https://go.microsoft.com/fwlink/?LinkID=760868
+
+sudo dpkg -i {downloaded-file.deb}
+sudo apt-get install -f # Install dependencies
+----
+
+=== Learn react js
+
+https://www.lullabot.com/articles/how-to-learn-react
+
+https://reactjs.org/tutorial/tutorial.html
+
+

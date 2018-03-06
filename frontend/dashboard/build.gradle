@@ -5,9 +5,8 @@ plugins {
 apply plugin: 'base'
 version '0.0.1'
 
-buildDir = 'dist'
-
 /*
+buildDir = 'dist'
 node {
   version = '6.10.3'
   download = true
@@ -15,10 +14,7 @@ node {
 */
 
 task bundle(type: YarnTask) {
-  inputs.dir(new File('assets'))
-  inputs.dir(new File('src'))
-  outputs.dir(new File('dist'))
-  // args = ['run', 'bundle']
+  args = ['build']
 }
 
 task start(type: YarnTask) {
@@ -29,6 +25,6 @@ task test(type: YarnTask) {
   args = ['test']
 }
 
-check.dependsOn(test)
+// check.dependsOn(test)
 bundle.dependsOn(yarn_install)
 assemble.dependsOn(bundle)

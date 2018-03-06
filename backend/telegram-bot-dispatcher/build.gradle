@@ -55,10 +55,10 @@ dependencyManagement {
 	}
 }
 
-jar {
-  from('../frontend/dist') {
+processResources {
+  from('../../frontend/dashboard/build') {
     into 'static'
   }
 }
 
-jar.dependsOn(':frontend/dashboard:assemble')
+processResources.dependsOn(':dashboard:assemble')

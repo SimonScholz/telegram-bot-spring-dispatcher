@@ -1,0 +1,123 @@
+= Vultr Server Config
+
+https://vultr.com/ is a cloud service, where spring boot apps can be hosted very cheaply.
+
+== Vultr Setup
+
+Installed Ubuntu 17.04 Server dist on it.
+
+=== Access Ubuntu Server:
+
+[source, console]
+----
+ssh root@{your-vultr-ip}
+----
+
+=== Install Java JDK 8
+
+[source, console]
+----
+sudo apt-get install openjdk-8-jdk openjdk-8-demo openjdk-8-doc openjdk-8-jre-headless openjdk-8-source
+----
+
+=== Create a new User (optional)
+
+[source, console]
+----
+adduser {desired username}
+----
+
+=== Upload your java application
+
+Use Filezilla to get sftp access by using your vultr account.
+
+[source, plain]
+----
+Host:        {your-vultr-server-ip}
+Port:        *** leave it blank ***
+Protocol:    SFTP
+Logon Type:  Normal
+User:        root
+Password:    {your-vultr-server-password}
+----
+
+Put your spring boot jar somewhere it is accessible and the user has permissions, e.g., /home/{user}/spring/servers.
+
+=== Start the spring boot app
+
+[source, console]
+----
+java -jar /user/server/telegram-bot-0.1.0.jar
+
+or
+
+/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -jar /user/server/telegram-bot-0.1.0.jar
+----
+
+[TIP]
+====
+To find out the java path use the following command:
+
+[source, console]
+----
+update-alternatives --list java
+----
+====
+
+=== Specify spring app as systemd service
+
+[source, console]
+----
+cd etc/systemd/system/
+
+touch telegram-bot-dmi.service
+
+vi telegram-bot-dmi.service
+----
+
+In vi the _telegram-bot-dmi.service_ should be changed to the following:
+
+[source, telegram-bot-dmi.service file]
+----
+[Unit]
+Description=Telegram Bot for dmi wheather forecasts
+After=network.target
+
+[Service]
+User={your user name}
+Group={your group}
+Type=simple
+ExecStart=/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java -jar /user/server/telegram-bot-0.1.0.jar
+RestartSec=10
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+----
+
+=== Starting and enabling the system service
+
+[source, console]
+----
+// starts the service
+systemctl start telegram-bot-dmi.service
+
+// output the log of the service
+journalctl -f -u telegram-bot-dmi.service
+
+// stops the service
+systemctl stop telegram-bot-dmi.service
+
+// enable the service
+systemctl enable telegram-bot-dmi.service
+
+// reload the systemctl daemon
+systemctl daemon-reload
+----
+
+
+[NOTE]
+====
+`systemctl enable telegram-bot-dmi.service` is used to automatically start the service, when the whole ubuntu server is restarted.
+====
+

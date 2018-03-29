@@ -1,0 +1,99 @@
+= Telegram Bot Spring Dispatcher
+
+Projects in this Repo are used to manage different telegram bots and dispatch webhook calls to different telegram bots.
+
+Bot which depend on this Telegram Bot Spring Dispatcher:
+
+* https://github.com/SimonScholz/telegram-bot-spring-dmi-wheater
+
+== Starting the Spring Boot application
+
+You can either import the project into the Spring Tool Suite (https://spring.io/tools/sts/all) by using the Buildship (https://github.com/eclipse/buildship/blob/master/docs/user/Installation.md) import wizard and start it from the IDE or simply start the application by running the `bootRun` Gradle task.
+
+[source, console]
+----
+cd backend/telegram-bot-eureka
+../../gradlew bootRun
+cd backend/telegram-bot-dispatcher
+../../gradlew bootRun
+----
+
+[[webhookusage]]
+== Using a Webhook
+
+Usually you'd want to use a webhook, if you're providing a rest endpoint like this app does.
+
+The webhook should point the /webhook endpoint, e.g., http://localhost:443/webhook.
+
+NOTE: You'll have to substitute `http://localhost:443/webhook` with `{your.server.domain or your.ip}/webhook`, since the telegram bot won't be able to reach the localhost of your machine.
+
+=== Set a webhook
+
+A nice way to set the webhook is by using _curl_:
+
+[source, console]
+----
+curl -F "url=https://{your-domain}/webhook" https://api.telegram.org/bot{your api token}/setWebhook
+----
+
+For a custom ssl certificate(telegram required pem) the following command can be used:
+
+[source, console]
+----
+curl -F "url=https://{your-domain}/webhook" -F "certificate=@/home/simon/ssl/keystore.pem" https://api.telegram.org/bot{your api token}/setWebhook
+----
+
+TIP: See https://core.telegram.org/bots/api#setwebhook for further information about setting a webhook.
+
+=== Secure the webhook endpoint
+
+To run this Spring Boot application with your own bot you usually have to adjust the application.yml file. (https://github.com/SimonScholz/telegram-bot-spring-dispatcher/blob/master/backend/telegram-bot-dispatcher/src/main/resources/application.yml)
+
+[source, properties]
+----
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+spring:
+  application:
+    name: telegram-bot-dispatcher
+server:
+  port: 443
+  ssl:
+    key-store: /home/spring/ssl/keystore.p12
+    key-store-password: *** your password ***
+    key-store-type: PKCS12
+    key-alias: telegram-bot
+----
+
+[TIP]
+====
+To use a webhook for telegram you need to use port 443 or 8443 with ssl.
+See https://github.com/SimonScholz/telegram-bot-spring-dispatcher/blob/master/LETS-ENCRYPT-CONFIG.adoc for further information about ssl security for your domain.
+
+This is also a nice introduction how to achieve that: https://dzone.com/articles/spring-boot-secured-by-lets-encrypt
+====
+
+== Technologies
+
+* Spring Boot 2.0 with Webflux
+* Spring Cloud
+* Reactive MongoDB
+* Lombok
+* Reactor IO
+* Retrofit
+* Gradle
+
+== Questions
+
+Please make use of this bot, share your knowledge and adapt it for your needs. 
+
+== Contributing
+
+Feedback is highly appreciated. You may open issues, send pull requests or simply contact me.
+
+== Sources
+
+https://core.telegram.org/bots/api
+

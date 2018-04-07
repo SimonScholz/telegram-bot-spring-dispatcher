@@ -121,3 +121,6 @@ systemctl daemon-reload
 `systemctl enable telegram-bot-dmi.service` is used to automatically start the service, when the whole ubuntu server is restarted.
 ====
 
+== Sources
+
+https://poweruphosting.com/blog/initial-server-setup-ubuntu-16-04/

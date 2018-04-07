@@ -34,3 +34,18 @@ The _keystore.p12_ file has to be moved to a location, which can be accessed by 
 
 The conversion to a _keystore.p12_ file with _openssl_ is necessary, because spring boot does not work with _*.pem_ files, but with _*.p12_ files.
 See _server.ssl.key-store_ property in _application.properties_ file of the spring boot application.
+
+
+== Renew the certificate
+
+[source, console]
+----
+
+cd certbot
+
+./certbot-auto renew
+
+cd /etc/letsencrypt/live/{your domain name -> example.ddns.net}/
+
+openssl pkcs12 -export -in fullchain.pem -inkey privkey.pem -out keystore.p12 -name telegram-bot -CAfile chain.pem -caname root
+----

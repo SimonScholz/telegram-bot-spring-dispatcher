@@ -8,7 +8,7 @@ import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
 @Component
-public class CustomWebFilter implements WebFilter {
+public class IndexWebFilter implements WebFilter {
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
 		if (exchange.getRequest().getURI().getPath().equals("/")) {
